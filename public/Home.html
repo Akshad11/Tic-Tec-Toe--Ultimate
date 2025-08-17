@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XOX - Tic Tac Toe</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap');
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .title-glow {
+            text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 10px #3b82f6, 0 0 20px rgba(59, 130, 246, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 15px #3b82f6, 0 0 25px #3b82f6, 0 0 35px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .input-glow:focus {
+            box-shadow: 0 0 10px #3b82f6, 0 0 20px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+        }
+
+        .card-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .about-glow {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .about-glow:hover {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .bg-pattern span {
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+            }
+
+            100% {
+                text-shadow: 0 0 15px #3b82f6, 0 0 25px #3b82f6, 0 0 35px #3b82f6;
+            }
+        }
+
+        .footer-link {
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #3b82f6;
+            text-shadow: 0 0 5px #3b82f6;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- <h1 id="fixedText" class="fixed left-0 top-10 text-white px-4 py-2 text-lg font-bold">
+
+    </h1> -->
+    <!-- Background pattern -->
+    <div class="bg-pattern" id="bgPattern"></div>
+
+    <!-- Main content -->
+    <main class="flex-1 container mx-auto px-4 py-8 md:py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="title-glow text-6xl md:text-8xl font-bold mb-6 text-blue-400 font-['Press Start 2P']">XOX</h1>
+            <p class="text-xl md:text-2xl text-blue-200 mb-8">The Ultimate Tic Tac Toe Experience</p>
+        </header>
+
+        <!-- Game actions -->
+        <section class="max-w-2xl mx-auto mb-16">
+            <!-- Create room -->
+            <div class="mb-10">
+                <h2 class="text-2xl font-bold mb-6 text-blue-300 flex items-center justify-center">
+                    <i class="fas fa-plus-circle mr-3"></i> Create New Game
+                </h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input id="txtName" type="text" placeholder="Your Name"
+                        class="input-glow flex-1 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="btnCreateRoom"
+                        class="btn-glow px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold transition-all duration-300">
+                        Create Room <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Join room -->
+            <div>
+                <h2 class="text-2xl font-bold mb-6 text-purple-300 flex items-center justify-center">
+                    <i class="fas fa-users mr-3"></i> Join Existing Game
+                </h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input id="txtRoomId" type="text" placeholder="Room Code"
+                        class="input-glow flex-1 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <button id="btnjoin"
+                        class="btn-glow px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-bold transition-all duration-300">
+                        Join Room <i class="fas fa-sign-in-alt ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rules section - full viewport -->
+        <section class="w-full min-h-screen py-16 bg-gradient-to-b from-slate-900 to-slate-950">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-4xl font-bold mb-12 text-center text-blue-400">
+                        <i class="fas fa-book mr-3"></i> How to Play XOX
+                    </h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <!-- Rules text -->
+                        <div
+                            class="card-glow bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-xl border border-slate-700">
+                            <ul class="space-y-4 text-lg text-slate-300">
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-3 text-xl">•</span>
+                                    <div>
+                                        <strong class="text-blue-300">The Grid:</strong> Game is played on a 3x3 grid
+                                        with two players
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-3 text-xl">•</span>
+                                    <div>
+                                        <strong class="text-blue-300">Player Marks:</strong> One player uses X, the
+                                        other uses O
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-3 text-xl">•</span>
+                                    <div>
+                                        <strong class="text-blue-300">Winning:</strong> First to get 3 marks in a row
+                                        (horizontal, vertical or diagonal) wins
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-3 text-xl">•</span>
+                                    <div>
+                                        <strong class="text-blue-300">Draw:</strong> If all squares are filled with no
+                                        winner, the game is a draw
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Game examples -->
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="card-glow bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <h4 class="text-center font-bold text-blue-300 mb-3">Starting Move</h4>
+                                <img src="https://i.imgur.com/JQZqQ1a.png" alt="Starting move" class="w-full rounded">
+                            </div>
+                            <div class="card-glow bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <h4 class="text-center font-bold text-blue-300 mb-3">Winning Move</h4>
+                                <img src="https://i.imgur.com/4j4j4j4.png" alt="Winning move" class="w-full rounded">
+                            </div>
+                            <div class="card-glow bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <h4 class="text-center font-bold text-blue-300 mb-3">Blocking Move</h4>
+                                <img src="https://i.imgur.com/9Q9Q9Q9.png" alt="Blocking move" class="w-full rounded">
+                            </div>
+                            <div class="card-glow bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <h4 class="text-center font-bold text-blue-300 mb-3">Draw Game</h4>
+                                <img src="https://i.imgur.com/1A1A1A1.png" alt="Draw game" class="w-full rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        </section>
+        <!-- About section -->
+        <section class="py-16 bg-slate-900">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div
+                    class="about-glow bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-xl border border-pink-900">
+                    <h3 class="text-3xl font-bold mb-6 text-pink-400 flex items-center justify-center">
+                        <i class="fas fa-user-astronaut mr-3"></i> About the Creator
+                    </h3>
+                    <div class="flex flex-col md:flex-row items-center mb-6">
+                        <div
+                            class="w-24 h-24 rounded-full bg-slate-700 md:mr-6 mb-4 md:mb-0 overflow-hidden border-2 border-pink-500">
+                            <img src="https://avatars.githubusercontent.com/u/1?v=4" alt="Creator"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-center md:text-left">
+                            <h4 class="font-bold text-2xl">Game Dev</h4>
+                            <p class="text-lg text-slate-400">Frontend Wizard & Game Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-lg text-slate-300 mb-6 text-center md:text-left">
+                        Passionate about creating immersive gaming experiences with sleek UI and smooth animations.
+                        This XOX game blends nostalgic gameplay with modern design aesthetics for the ultimate
+                        dark mode experience.
+                    </p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-pink-400 hover:text-pink-300 text-2xl">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-pink-400 hover:text-pink-300 text-2xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-pink-400 hover:text-pink-300 text-2xl">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="footer-link text-slate-400 hover:text-blue-400">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="footer-link text-slate-400 hover:text-blue-400">
+                    <i class="fas fa-code"></i>
+                </a>
+                <a href="#" class="footer-link text-slate-400 hover:text-blue-400">
+                    <i class="fas fa-gamepad"></i>
+                </a>
+            </div>
+            <p class="text-slate-500 text-sm">
+                &copy; 2023 XOX Game. All rights reserved. Made with <i class="fas fa-heart text-pink-500"></i> by Game
+                Dev
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Create floating X and O background pattern
+        document.addEventListener('DOMContentLoaded', function () {
+            const bgPattern = document.getElementById('bgPattern');
+            const symbols = ['X', 'O'];
+            const count = 20;
+
+            for (let i = 0; i < count; i++) {
+                const symbol = document.createElement('span');
+                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.left = `${Math.random() * 100}%`;
+                symbol.style.top = `${Math.random() * 100}%`;
+                symbol.style.animationDuration = `${15 + Math.random() * 30}s`;
+                symbol.style.animationDelay = `${Math.random() * 5}s`;
+                bgPattern.appendChild(symbol);
+            }
+
+            // Add hover effects to buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.classList.add('transform', 'scale-105');
+                });
+                button.addEventListener('mouseleave', () => {
+                    button.classList.remove('transform', 'scale-105');
+                });
+            });
+        });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/shared.js"></script>
+    <script src="/js/home.js" defer></script>
+</body>
+
+</html>

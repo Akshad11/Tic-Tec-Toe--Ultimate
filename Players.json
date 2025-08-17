@@ -1,0 +1,26 @@
+{
+  "e484a612-2874-41bd-b3ac-95186d2abea8": {
+    "Name": "mmm",
+    "PlayerID": "e484a612-2874-41bd-b3ac-95186d2abea8",
+    "SocketID": "z6WonCClTXrzHfigAAAR",
+    "InactiveTime": 0,
+    "isLeft": true,
+    "PlayerMark": "X"
+  },
+  "ab29d7e2-0a1b-4028-b86d-918a9b346796": {
+    "Name": "mmm",
+    "PlayerID": "ab29d7e2-0a1b-4028-b86d-918a9b346796",
+    "SocketID": "FEC5VRUzFsnDQV9dAAAP",
+    "InactiveTime": 0,
+    "isLeft": false,
+    "PlayerMark": "X"
+  },
+  "1bc7b989-9e2a-4079-a575-1f143ae22ed4": {
+    "Name": "mmm",
+    "PlayerID": "1bc7b989-9e2a-4079-a575-1f143ae22ed4",
+    "SocketID": "TDZHsYk-ZiB3JBg9AAAT",
+    "InactiveTime": 0,
+    "isLeft": false,
+    "PlayerMark": "O"
+  }
+}

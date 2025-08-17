@@ -1,0 +1,15 @@
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+RUN npm install -g nodemon concurrently
+
+COPY . .
+
+# No Tailwind build here — we'll build at runtime
+EXPOSE 3000
+
+# Start Tailwind watcher & Node server together
+CMD ["npx", "concurrently", "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch", "nodemon server.js"]

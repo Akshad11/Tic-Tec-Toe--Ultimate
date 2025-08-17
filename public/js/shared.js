@@ -1,4 +1,4 @@
-const socket = io("http://192.168.1.33:3000");
+const socket = io(window.SOCKET_URL);
 const roomCode = new URLSearchParams(window.location.search).get("room");
 function getQueryParam(key) {
     return new URLSearchParams(window.location.search).get(key);

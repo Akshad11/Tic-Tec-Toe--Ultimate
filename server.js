@@ -28,6 +28,11 @@ app.use(sessionMiddleware);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get("/config.js", (req, res) => {
+    res.type("application/javascript");
+    res.send(`window.SOCKET_URL = "${process.env.SOCKET_URL}";`);
+});
+
 app.get('/Home', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Home.html'));
 });

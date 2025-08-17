@@ -1,1 +1,76 @@
-{}
+{
+  "CT49QS": {
+    "RoomID": "CT49QS",
+    "RoomCreated": "2025-08-17T18:13:23.916Z",
+    "Players": [
+      {
+        "Name": "ffff",
+        "PlayerID": "1bc7b989-9e2a-4079-a575-1f143ae22ed4",
+        "SocketID": "rY06BwOH26cq26GhAAAJ",
+        "InactiveTime": 0,
+        "isLeft": false,
+        "PlayerMark": "X"
+      }
+    ],
+    "Games": [
+      {
+        "GameID": "e66c9f58-3e33-4a72-9b52-06729ecab154",
+        "Gameboard": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "WinnerPlayer": null,
+        "GameStarted": "2025-08-17T18:13:23.916Z",
+        "GameEnded": null,
+        "isGameEnded": false
+      }
+    ],
+    "CurrentTurn": "X",
+    "isStarted": false,
+    "Messages": []
+  },
+  "04F6MU": {
+    "RoomID": "04F6MU",
+    "RoomCreated": "2025-08-17T18:13:35.187Z",
+    "Players": [
+      {
+        "Name": "ffff",
+        "PlayerID": "1bc7b989-9e2a-4079-a575-1f143ae22ed4",
+        "SocketID": "rY06BwOH26cq26GhAAAJ",
+        "InactiveTime": 0,
+        "isLeft": false,
+        "PlayerMark": "X"
+      }
+    ],
+    "Games": [
+      {
+        "GameID": "b6e1f1d1-94fb-48e7-86e9-61fcb9476c88",
+        "Gameboard": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "WinnerPlayer": null,
+        "GameStarted": "2025-08-17T18:13:35.188Z",
+        "GameEnded": null,
+        "isGameEnded": false
+      }
+    ],
+    "CurrentTurn": "X",
+    "isStarted": false,
+    "Messages": []
+  }
+}

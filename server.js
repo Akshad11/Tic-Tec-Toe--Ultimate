@@ -4,7 +4,7 @@ const path = require('path');
 const http = require("http")
 const { Server } = require('socket.io');
 const session = require("express-session");
-const registerSocketHandlers = require('./Socket');
+const registerSocketHandlers = require('./socket');
 const { getJsonData, CreateRoomsPlayers } = require("./HelperFunctions");
 const sessionMiddleware = session({
     secret: "your-secret-key",

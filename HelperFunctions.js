@@ -96,10 +96,14 @@ function CreateGameRoom(id, Name) {
     const player = players[id];
     if (!player) return false
     player.Name = Name;
-    player.PlayerMark = "X";
+
+    const clonedPlayer = CreatePlayer(player.PlayerID, player.SocketID);
+    clonedPlayer.Name = Name;
+    clonedPlayer.PlayerMark = "X";
+
     saveRooms(players, PLAYER_FILE);
 
-    room.Players.push(player);
+    room.Players.push(clonedPlayer);
     room.Games.push(CreateGame());
     rooms[room.RoomID] = room;
     saveRooms(rooms, ROOMS_FILE);
@@ -115,8 +119,14 @@ function JoinPlayerRoom(roomCode, Name, playerId) {
 
     const player = players[playerId];
     player.Name = Name;
-    player.PlayerMark = "O";
-    room.Players.push(player);
+
+    saveRooms(players, PLAYER_FILE);
+
+    const clonedPlayer = CreatePlayer(player.PlayerID, player.SocketID);
+    clonedPlayer.Name = Name;
+    clonedPlayer.PlayerMark = "O";
+
+    room.Players.push(clonedPlayer);
     room.isStarted = true;
     saveRooms(rooms, ROOMS_FILE);
 
@@ -167,6 +177,24 @@ function MakePlayerMove(roomCode, index) {
     saveRooms(rooms, ROOMS_FILE);
 
     return "MOVEMADE"
+}
+
+function SetPlayerWinner(roomCode, playerId) {
+    const room = rooms[roomCode];
+    if (!room) return "NOROOM";
+    const game = room.Games.at(-1);
+    if (game.isGameEnded) return "GAMEOVER";
+
+    game.isGameEnded = true;
+    game.GameEnded = new Date().toISOString();
+    const player = room.Players.find(p => p.PlayerID === playerId);
+    if (!player) return "NOPLAYER";
+
+    game.WinnerPlayer = player.PlayerMark === "X" ? "O" : "X";
+
+    saveRooms(rooms, ROOMS_FILE);
+
+    return "WINNERSET"
 }
 
 function SetPlayerLeft(roomCode, playerId) {
@@ -269,4 +297,4 @@ function checkWinner(board) {
     return null; // game still ongoing
 }
 
-module.exports = { saveRooms, AcceptedRematch, PlayerRematch, SetPlayerLeft, getGameWinner, MakePlayerMove, getCurrentTurn, getGameboard, isRoomGameStarted, JoinPlayerRoom, CreateGameRoom, UpdateRoomSocketID, UpdatePlayerSocketID, CreateUUID, getJsonData, CreateRoomsPlayers, CreatePlayer, CreateGame, CreateRoom };
+module.exports = { saveRooms, SetPlayerWinner, AcceptedRematch, PlayerRematch, SetPlayerLeft, getGameWinner, MakePlayerMove, getCurrentTurn, getGameboard, isRoomGameStarted, JoinPlayerRoom, CreateGameRoom, UpdateRoomSocketID, UpdatePlayerSocketID, CreateUUID, getJsonData, CreateRoomsPlayers, CreatePlayer, CreateGame, CreateRoom };

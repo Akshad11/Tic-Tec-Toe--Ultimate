@@ -16,7 +16,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // allow all origins for testing
+        origin: "*",
         methods: ["GET", "POST"]
     },
     transports: ["websocket", "polling"]
@@ -53,13 +53,5 @@ io.use((socket, next) => {
 });
 
 registerSocketHandlers(io);
-
-// Expose HTML pages
-app.get("/Home", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "Home.html"));
-});
-app.get("/game.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "game.html"));
-});
 
 

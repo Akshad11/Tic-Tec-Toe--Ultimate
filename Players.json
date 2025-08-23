@@ -1,18 +1,1 @@
-{
-  "1bc7b989-9e2a-4079-a575-1f143ae22ed4": {
-    "Name": "ffff",
-    "PlayerID": "1bc7b989-9e2a-4079-a575-1f143ae22ed4",
-    "SocketID": "rY06BwOH26cq26GhAAAJ",
-    "InactiveTime": 0,
-    "isLeft": false,
-    "PlayerMark": "X"
-  },
-  "e484a612-2874-41bd-b3ac-95186d2abea8": {
-    "Name": "",
-    "PlayerID": "e484a612-2874-41bd-b3ac-95186d2abea8",
-    "SocketID": "9rnVsI-cUtmEu1GMAAAC",
-    "InactiveTime": 0,
-    "isLeft": false,
-    "PlayerMark": ""
-  }
-}
+{}

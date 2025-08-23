@@ -64,7 +64,7 @@ Object.defineProperty(window, "isPlayerLeft", {
   },
   set(value) {
     if (isPlayerLeft === false && value === true) {
-    //   console.log("Changed from false → true");
+      //   console.log("Changed from false → true");
       NotifyandRedirect();
     }
     isPlayerLeft = value;
@@ -72,15 +72,15 @@ Object.defineProperty(window, "isPlayerLeft", {
 });
 
 function NotifyandRedirect() {
-//   console.log(waitingPopup.style.display);
-//   console.log(textPopup.innerHTML.trim());
-//   console.log(textPopup);
+  //   console.log(waitingPopup.style.display);
+  //   console.log(textPopup.innerHTML.trim());
+  //   console.log(textPopup);
   if (
     waitingPopup &&
     textPopup &&
     waitingPopup.style.display === "flex" &&
     textPopup.innerHTML.trim() ===
-      "Waiting for your opponent to accept the rematch…"
+    "Waiting for your opponent to accept the rematch…"
   ) {
     waitingPopup.style.display = "none";
     const popup = document.createElement("div");
@@ -164,6 +164,52 @@ document.getElementById("cancelRematch").addEventListener("click", () => {
   ClearSession();
 });
 
+// window.addEventListener("beforeunload", (event) => {
+//   document.getElementById("LeavePopup").classList.remove("hidden");
+//   event.preventDefault();
+// });
+
+document.getElementById("LeaveMatch").addEventListener("click", () => {
+  socket.emit("SetWinner", {
+    playerId: sessionStorage.getItem("playerId"),
+    roomCode: sessionStorage.getItem("roomID"),
+  });
+  PlayerLeft();
+  ClearSession();
+});
+
+document.getElementById("btnLoss").addEventListener("click", () => {
+  document.getElementById("LossPopup").classList.remove("hidden");
+
+});
+
+document.getElementById("LossReturnToMatch").addEventListener("click", () => {
+  document.getElementById("LossPopup").classList.add("hidden");
+});
+
+document.getElementById("LossMatch").addEventListener("click", () => {
+  socket.emit("SetWinner", {
+    playerId: sessionStorage.getItem("playerId"),
+    roomCode: sessionStorage.getItem("roomID"),
+  });
+  showLossPopup();
+  document.getElementById("LossPopup").classList.add("hidden");
+});
+
+document.getElementById("ReturnToMatch").addEventListener("click", () => {
+  document.getElementById("LeavePopup").classList.add("hidden");
+});
+
+document.getElementById("btnExit").addEventListener("click", () => {
+  document.getElementById("LeavePopup").classList.remove("hidden");
+
+});
+
+function ReturnToMatch() {
+  document.getElementById("LeavePopup").classList.add("hidden");
+
+}
+
 function AssignMark(player1) {
   document.getElementById("player1").innerText = player1 ? "O" : "X";
   document.getElementById("player2").innerText = player1 ? "X" : "O";
@@ -172,9 +218,8 @@ function AssignMark(player1) {
 function renderBoard() {
   board.forEach((val, i) => {
     squares[i].innerHTML = val
-      ? `<span class="text-6xl font-bold ${
-          val === "O" ? "text-red-500" : "text-green-500"
-        }">${val}</span>`
+      ? `<span class="text-6xl font-bold ${val === "O" ? "text-red-500" : "text-green-500"
+      }">${val}</span>`
       : "";
   });
 }
@@ -189,6 +234,16 @@ function updateTurnDisplay() {
     turnDisplay.innerText = `Opponent's move... ${currentPlayer}`;
   }
 }
+
+socket.on("PlayerLeftWinner", (data) => {
+  const { gameState, turn, winner } = data;
+
+  if (winner) {
+    if (winner === "draw") showDrawPopup();
+    else if (winner === sessionStorage.getItem("Playersymbol")) showWinPopup();
+    else showLossPopup();
+  }
+});
 
 function showDrawPopup() {
   document.getElementById("drawPopup").classList.remove("hidden");
@@ -237,7 +292,6 @@ function closeLossPopup() {
 function ClearSession() {
   sessionStorage.removeItem("Playersymbol");
   sessionStorage.removeItem("roomID");
-  y;
   window.location.href = `/Home.html`;
 }
 

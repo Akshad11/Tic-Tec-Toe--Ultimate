@@ -1,5 +1,5 @@
 const { Socket } = require("socket.io");
-const { getJsonData, CreatePlayer, saveRooms, CreateUUID, UpdatePlayerSocketID, UpdateRoomSocketID, CreateGameRoom, JoinPlayerRoom, isRoomGameStarted, getGameboard, getCurrentTurn, MakePlayerMove, getGameWinner, SetPlayerLeft, PlayerRematch, AcceptedRematch } = require("./HelperFunctions");
+const { getJsonData, CreatePlayer, saveRooms, CreateUUID, UpdatePlayerSocketID, UpdateRoomSocketID, CreateGameRoom, JoinPlayerRoom, isRoomGameStarted, getGameboard, getCurrentTurn, MakePlayerMove, getGameWinner, SetPlayerLeft, PlayerRematch, AcceptedRematch, SetPlayerWinner } = require("./HelperFunctions");
 
 function registerSocketHandlers(io) {
 
@@ -128,7 +128,25 @@ function registerSocketHandlers(io) {
 
         });
 
+        socket.on("SetWinner", (data) => {
+            const { playerId, roomCode } = data;
+            const FLAG = SetPlayerWinner(roomCode, playerId);
+
+            if (FLAG === "NOROOM") {
+                socket.emit("errorMessage", "Room not found");
+            } if (FLAG === "PLAYERLEFT" || FLAG === "NOGAME" || FLAG === "NOPLAYER") {
+                socket.emit("errorMessage", "Player not found" + FLAG);
+            } else if (FLAG === "WINNERSET") {
+                socket.to(roomCode).emit("PlayerLeftWinner", {
+                    gameState: getGameboard(roomCode),
+                    turn: getCurrentTurn(roomCode),
+                    winner: getGameWinner(roomCode),
+                });
+            }
+        });
+
         socket.on("disconnect", () => {
+            console.log("Player Disconnected : " + socket.id);
             socket.emit("PlayerDisconnected", "Player left");
         });
 
